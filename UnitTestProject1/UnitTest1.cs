@@ -4,26 +4,44 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace C0724144_C0732134
 {
     [TestClass]
-    public class UnitTest1
+    public class BankAccountTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void Debit_WithValidAmount_UpdatesBalance()
         {
-            public void Debit_WithValidAmount_UpdatesBalance()
+            //Arrange
+            double beginningBalance = 11.99;
+            double debitAmount = 4.55;
+            double expected = 7.44;
+            BankAccount account = new BankAccount("Harpuspam Nanan\nSidharath Aggarwal", beginningBalance);
+
+            //Act
+            account.Debit(debitAmount);
+
+            //Assert
+            double actual = account.Balance;
+            Assert.AreEqual(expected, actual, 0.0001, "Account not debited correctly");
+        }
+
+        [TestMethod]
+
+        public void Debit_WhenAmountIsLessThanZero_ShouldThrowArgumentOutOfRange()
+        {
+            double beginningbalance = 11.99;
+            double debitAmount = 20.00;
+            BankAccount account = new BankAccount("Harpuspam Nanan\nSidharath Aggarwal", beginningbalance);
+
+            //act
+            try
             {
-                //Arrange
-                double beginningBalance = 11.99;
-                double debitAmount = 4.55;
-                double expected = 7.44;
-                BankAccount account = new BankAccount("Mr. Harpuspam Singh Nanan\nMr. Sidharath Aggarwal", beginningBalance);
-
-                //Act
                 account.Debit(debitAmount);
-
-                //Assert
-                double actual = account.Balance;
-                Assert.AreEqual(expected, actual, 0.0001, "Account nt debited correctly");
             }
+            catch (ArgumentOutOfRangeException e)
+            {
+                StringAssert.Contains(e.Message, BankAccount.DebitAEBM);
+            }
+
+            //
         }
     }
 }

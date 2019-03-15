@@ -23,47 +23,55 @@ namespace C0724144_C0732134
 
     public class BankAccount
     {
-        private string m_custonerName;
-
+        private string m_customerName;
         private double m_balance;
-
         private bool m_frozen = false;
+        public const string DebitAEBM = "debit amount exceeds balance";
+        public const string DebitALTZM = "debit amount less han zero";
 
         private BankAccount()
         {
-        }
 
+        }
         public BankAccount(string customerName, double balance)
         {
-            m_custonerName = customerName;
-
+            m_customerName = customerName;
             m_balance = balance;
         }
-        public string CustomerName
-        {
-            get { return m_custonerName; }
-        }
 
+        public string CustomerName
+
+        {
+            get { return m_customerName; }
+        }
         public double Balance
         {
             get { return m_balance; }
         }
+
         public void Debit(double amount)
         {
+
             if (m_frozen)
+
             {
                 throw new Exception("Account frozen");
+
             }
+
             if (amount > m_balance)
+
             {
-                throw new ArgumentOutOfRangeException("amount");
+                throw new ArgumentOutOfRangeException("amount", amount, DebitAEBM);
+
             }
             if (amount < 0)
             {
-                throw new ArgumentOutOfRangeException("amount");
+                throw new ArgumentOutOfRangeException("amount", amount, DebitALTZM);
             }
 
-            m_balance += amount;
+            m_balance -= amount;
+
         }
 
         public void Credit(double amount)
@@ -72,21 +80,26 @@ namespace C0724144_C0732134
             {
                 throw new Exception("Account frozen");
             }
+
             if (amount < 0)
             {
                 throw new ArgumentOutOfRangeException("amount");
             }
 
             m_balance += amount;
-        }
-        private void FreezoAccount()
-        {
-            m_frozen = true;
-        }
-        private void UnfreezeAccount()
-        {
-            m_frozen = false;
+
         }
 
+        private void FreezeAccount()
+        {
+            m_frozen = true;
+
+        }
+
+        private void unFreezeAccount()
+        {
+            m_frozen = false;
+
+        }
     }
 }
